@@ -5,6 +5,10 @@ const theme = createTheme({
     primary: {
       main: '#000000',
     },
+    background: {
+      default: '#F2F4F5',
+      white: '#ffffff'
+    },
   },
 })
 
