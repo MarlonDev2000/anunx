@@ -1,5 +1,17 @@
+import {
+  Container,
+  Typography,
+  Box,
+  TextField,
+  Select,
+  Button,
+  IconButton,
+  FormControl,
+  InputLabel,
+  InputAdornment,
+  OutlinedInput,
+} from '@mui/material'
 import { DeleteForever } from '@mui/icons-material'
-import { Container, Typography, Box, TextField, Select, Button, IconButton, } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useState } from 'react'
 import { useDropzone } from 'react-dropzone'
@@ -29,7 +41,7 @@ const useStyles = makeStyles((theme)=>({
     alignItems: 'center',
     textAlign: 'center',
     padding: 10,
-    width: 200,
+    width: 180,
     height: 150,
     margin: '0 15px 15px 0',
     backgroundColor: theme.palette.background.default,
@@ -39,7 +51,7 @@ const useStyles = makeStyles((theme)=>({
   thumb: {
     position: 'relative',
     margin: '0px 15px 15px 0px',
-    width: 200,
+    width: 180,
     height: 150,
     backgroundSize: 'cover',
     backgroundPosition: 'center center',
@@ -186,7 +198,7 @@ const Publish = () => {
       <Container maxWidth="md" className={classes.boxContainer}>
         <Box className={classes.box}>
           <Typography component="h6" variant="h6" color="textPrimary" >
-            Descricao
+            Descriçao
           </Typography>
           <Typography component="div" variant="body2" color="textPrimary" >
             Escreva os detalhes do que esta vendendo
@@ -197,6 +209,23 @@ const Publish = () => {
             variant="outlined"
             fullWidth
           />
+        </Box>
+      </Container>
+
+      <Container maxWidth="md" className={classes.boxContainer}>
+        <Box className={classes.box}>
+          <Typography component="h6" variant="h6" color="textPrimary" >
+            Preço
+          </Typography>
+          <br/>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel>Valor</InputLabel>
+            <OutlinedInput
+              label="Valor"
+              onChange={()=>{}}
+              startAdornment={<InputAdornment position="start">R$</InputAdornment>}
+            />
+          </FormControl>
         </Box>
       </Container>
 
