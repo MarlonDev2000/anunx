@@ -46,7 +46,7 @@ const Home = () => {
           O que deseja encontrar?
         </Typography>
         <Paper className={classes.searchBox}>
-          <InputBase placeholder="Ex.: Iphone 12 com garantia" fullWidth />
+          <InputBase placeholder="Ex: Iphone 12 com garantia" fullWidth />
           <IconButton>
             <Search />
           </IconButton>
@@ -54,7 +54,7 @@ const Home = () => {
       </Container>
 
 
-      <Container maxWidth="md" className={classes.cardGrid}>
+      <Container maxWidth="lg" className={classes.cardGrid}>
         <Typography component="h2" variant="h4" align="center" color="textPrimary">
           Destaques
         </Typography>

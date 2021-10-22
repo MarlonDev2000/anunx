@@ -1,21 +1,90 @@
-import { AppBar, Box, Toolbar, Typography, Button, IconButton } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  Container,
+  Avatar,
+  Menu,
+  MenuItem,
+  Divider
+} from '@mui/material'
+import { makeStyles } from '@mui/styles'
+import { useState } from 'react'
+import { AccountCircle } from '@mui/icons-material'
+import Link from 'next/link'
+
+const useStyles = makeStyles(()=>({
+  title: {
+    flexGrow: 1,
+    cursor: 'pointer',
+  },
+  avatarIcon: {
+    marginLeft: 6,
+  },
+  sellLinkButton: {
+    marginRight: 6,
+  },
+  divider: {
+    margin: '8px 0px',
+  },
+}))
 
 const Header = () => {
+
+  const classes = useStyles()
+  const [anchorUserMenu, setAnchorUserMenu] = useState(false)
+
+  const openUserMenu = Boolean(anchorUserMenu)
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Anunx
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
+    <>
+      <AppBar position="static" elevation={3}>
+        <Container maxWidth="lg">
+          <Toolbar>
+            <Link href="/" passHref>
+              <Typography variant="h6" className={classes.title}>
+                Anunx
+              </Typography>
+            </Link>
+            <Link href="/user/publish" passHref>
+              <Button color="inherit" variant="outlined" className={classes.sellLinkButton}>
+                Anunciar e Vender
+              </Button>
+            </Link>
+            <IconButton color="secondary" onClick={(e)=>{setAnchorUserMenu(e.currentTarget)}}>
+              {
+                true === false
+                ? <Avatar src=""/>
+                : <AccountCircle fontSize="large"/>
+              }
+              <Typography variant="subtitle2" color="secondary" className={classes.avatarIcon}>
+                Marlon Braga
+              </Typography>
+            </IconButton>
+            <Menu
+              open={openUserMenu} 
+              anchorEl={anchorUserMenu}
+              onClose={() => { setAnchorUserMenu(null) }}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'bottom'
+              }}
+            >
+              <Link href="/user/dashbord" passHref>
+                <MenuItem>Meus Anuncios</MenuItem>
+              </Link>
+              <Link href="/user/publish" passHref>
+                <MenuItem>Publicar novo anuncio</MenuItem>
+              </Link>
+              <Divider  className={classes.divider}/>
+              <MenuItem>Sair</MenuItem>
+            </Menu>
+          </Toolbar>
+        </Container>
       </AppBar>
-    </Box>
+    </>
   )
 }
 
