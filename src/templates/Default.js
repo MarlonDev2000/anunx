@@ -4,7 +4,7 @@ import { makeStyles } from '@mui/styles'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(6, 0, 6),
   }
