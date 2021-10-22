@@ -67,10 +67,6 @@ const Header = () => {
               open={openUserMenu} 
               anchorEl={anchorUserMenu}
               onClose={() => { setAnchorUserMenu(null) }}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'bottom'
-              }}
             >
               <Link href="/user/dashbord" passHref>
                 <MenuItem>Meus Anuncios</MenuItem>
