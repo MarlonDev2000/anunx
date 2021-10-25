@@ -8,14 +8,14 @@ import {
   Avatar,
   Menu,
   MenuItem,
-  Divider
+  Divider,
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useState } from 'react'
 import { AccountCircle } from '@mui/icons-material'
 import Link from 'next/link'
 
-const useStyles = makeStyles(()=>({
+const useStyles = makeStyles(() => ({
   title: {
     flexGrow: 1,
     cursor: 'pointer',
@@ -32,7 +32,6 @@ const useStyles = makeStyles(()=>({
 }))
 
 const Header = () => {
-
   const classes = useStyles()
   const [anchorUserMenu, setAnchorUserMenu] = useState(false)
 
@@ -49,24 +48,39 @@ const Header = () => {
               </Typography>
             </Link>
             <Link href="/user/publish" passHref>
-              <Button color="inherit" variant="outlined" className={classes.sellLinkButton}>
+              <Button
+                color="inherit"
+                variant="outlined"
+                className={classes.sellLinkButton}
+              >
                 Anunciar e Vender
               </Button>
             </Link>
-            <IconButton color="secondary" onClick={(e)=>{setAnchorUserMenu(e.currentTarget)}}>
-              {
-                true === false
-                ? <Avatar src=""/>
-                : <AccountCircle fontSize="large"/>
-              }
-              <Typography variant="subtitle2" color="secondary" className={classes.avatarIcon}>
+            <IconButton
+              color="secondary"
+              onClick={e => {
+                setAnchorUserMenu(e.currentTarget)
+              }}
+            >
+              {true === false ? (
+                <Avatar src="" />
+              ) : (
+                <AccountCircle fontSize="large" />
+              )}
+              <Typography
+                variant="subtitle2"
+                color="secondary"
+                className={classes.avatarIcon}
+              >
                 Marlon Braga
               </Typography>
             </IconButton>
             <Menu
-              open={openUserMenu} 
+              open={openUserMenu}
               anchorEl={anchorUserMenu}
-              onClose={() => { setAnchorUserMenu(null) }}
+              onClose={() => {
+                setAnchorUserMenu(null)
+              }}
             >
               <Link href="/user/dashbord" passHref>
                 <MenuItem>Meus Anuncios</MenuItem>
@@ -74,7 +88,7 @@ const Header = () => {
               <Link href="/user/publish" passHref>
                 <MenuItem>Publicar novo anuncio</MenuItem>
               </Link>
-              <Divider  className={classes.divider}/>
+              <Divider className={classes.divider} />
               <MenuItem>Sair</MenuItem>
             </Menu>
           </Toolbar>
