@@ -6,10 +6,12 @@ import {
   Select,
   Button,
   IconButton,
-  FormControl,
   InputLabel,
   InputAdornment,
   OutlinedInput,
+  MenuItem,
+  FormControl,
+  FormHelperText,
 } from '@mui/material'
 import { DeleteForever } from '@mui/icons-material'
 import { makeStyles } from '@mui/styles'
@@ -83,6 +85,7 @@ const validationSchema = yup.object().shape({
     .min(6, 'Escreva um titulo maior')
     .max(100, 'Titulo muito grande')
     .required('Campo obrigatorio'),
+  category: yup.string().required('Campo obrigatorio'),
 })
 
 const Publish = () => {
@@ -113,6 +116,7 @@ const Publish = () => {
       <Formik
         initialValues={{
           title: '',
+          category: '',
         }}
         validationSchema={validationSchema}
         onSubmit={values => {
@@ -174,32 +178,39 @@ const Publish = () => {
                   >
                     Categoria
                   </Typography>
-                  <Select
-                    native
-                    value=""
-                    fullWidth
-                    onChange={() => {}}
-                    inputProps={{
-                      name: 'age',
-                    }}
-                  >
-                    <option value="">Selecione</option>
-                    <option value={1}>Bebe e Crianca</option>
-                    <option value={2}>Agricultura</option>
-                    <option value={3}>Moda</option>
-                    <option value={3}>Carros, Motos e Barcos</option>
-                    <option value={3}>Servicos</option>
-                    <option value={3}>Lazer</option>
-                    <option value={3}>Animais</option>
-                    <option value={3}>Moveis, Casa, Jardim</option>
-                    <option value={3}>Imoveis</option>
-                    <option value={3}>Equipamentos e Ferramentas</option>
-                    <option value={3}>Celulares e Tablets</option>
-                    <option value={3}>Esporte</option>
-                    <option value={3}>Tecnologia</option>
-                    <option value={3}>Emprego</option>
-                    <option value={3}>Outros</option>
-                  </Select>
+                  <FormControl error={errors.category} fullWidth>
+                    <Select
+                      name="category"
+                      value={values.category}
+                      fullWidth
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="Bebe e Crianca">Bebe e Crianca</MenuItem>
+                      <MenuItem value="Agricultura">Agricultura</MenuItem>
+                      <MenuItem value="Moda">Moda</MenuItem>
+                      <MenuItem value="Carros, Motos e Barcos">
+                        Carros, Motos e Barcos
+                      </MenuItem>
+                      <MenuItem value="Servicos">Servicos</MenuItem>
+                      <MenuItem value="Lazer">Lazer</MenuItem>
+                      <MenuItem value="Animais">Animais</MenuItem>
+                      <MenuItem value="Moveis, Casa, Jardim">
+                        Moveis, Casa, Jardim
+                      </MenuItem>
+                      <MenuItem value="Imoveis">Imoveis</MenuItem>
+                      <MenuItem value="Equipamentos e Ferramentas">
+                        Equipamentos e Ferramentas
+                      </MenuItem>
+                      <MenuItem value="Celulares e Tablets">
+                        Celulares e Tablets
+                      </MenuItem>
+                      <MenuItem value="Esporte">Esporte</MenuItem>
+                      <MenuItem value="Tecnologia">Tecnologia</MenuItem>
+                      <MenuItem value="Emprego">Emprego</MenuItem>
+                      <MenuItem value="Outros">Outros</MenuItem>
+                    </Select>
+                    <FormHelperText>{errors.category}</FormHelperText>
+                  </FormControl>
                 </Box>
               </Container>
 
