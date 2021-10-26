@@ -14,7 +14,7 @@ import { makeStyles } from '@mui/styles'
 import TemplateDefault from '../src/templates/Default'
 import Card from '../src/components/Card'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   searchBox: {
     display: 'flex',
     justifyContent: 'center',
@@ -62,7 +62,7 @@ const Home = () => {
         <Grid container spacing={4}>
           <Grid item xs={12} sm={6} md={4}>
             <Card
-              image={'https://source.unsplash.com/random'}
+              image={'https://picsum.photos/200'}
               title="Produto X"
               subtitle="R$ 60,00"
               actions={
@@ -79,7 +79,7 @@ const Home = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <Card
-              image={'https://source.unsplash.com/random'}
+              image={'https://picsum.photos/200'}
               title="Produto X"
               subtitle="R$ 60,00"
               actions={
@@ -96,7 +96,7 @@ const Home = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <Card
-              image={'https://source.unsplash.com/random'}
+              image={'https://picsum.photos/200'}
               title="Produto X"
               subtitle="R$ 60,00"
               actions={

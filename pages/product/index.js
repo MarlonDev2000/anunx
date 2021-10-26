@@ -13,7 +13,7 @@ import { makeStyles } from '@mui/styles'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
 
-import TemplateDefault from '../src/templates/Default'
+import TemplateDefault from '../../src/templates/Default'
 
 const useStyles = makeStyles(theme => ({
   box: {
@@ -53,14 +53,14 @@ const Product = () => {
               >
                 <Card className={classes.card}>
                   <CardMedia
-                    image="https://source.unsplash.com/random?a=1"
+                    image="https://picsum.photos/200"
                     title="Titulo da imagem"
                     className={classes.cardMedia}
                   />
                 </Card>
                 <Card className={classes.card}>
                   <CardMedia
-                    image="https://source.unsplash.com/random?a=2"
+                    image="https://picsum.photos/200"
                     title="Titulo da imagem"
                     className={classes.cardMedia}
                   />
