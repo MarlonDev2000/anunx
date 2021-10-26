@@ -44,7 +44,7 @@ const Header = () => {
           <Toolbar>
             <Link href="/" passHref>
               <Typography variant="h6" className={classes.title}>
-                Anunx
+                AnunX
               </Typography>
             </Link>
             <Link href="/user/publish" passHref>

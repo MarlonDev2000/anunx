@@ -53,14 +53,14 @@ const Product = () => {
               >
                 <Card className={classes.card}>
                   <CardMedia
-                    image="https://picsum.photos/200"
+                    image="https://picsum.photos/700"
                     title="Titulo da imagem"
                     className={classes.cardMedia}
                   />
                 </Card>
                 <Card className={classes.card}>
                   <CardMedia
-                    image="https://picsum.photos/200"
+                    image="https://picsum.photos/700"
                     title="Titulo da imagem"
                     className={classes.cardMedia}
                   />
