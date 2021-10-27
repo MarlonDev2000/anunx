@@ -2,7 +2,6 @@ import {
   Container,
   Typography,
   Box,
-  TextField,
   Select,
   Button,
   IconButton,
@@ -22,7 +21,7 @@ import * as yup from 'yup'
 
 import TemplateDefault from '../../src/templates/Default'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   boxContainer: {
     paddingBottom: theme.spacing(3),
   },
@@ -97,30 +96,11 @@ const validationSchema = yup.object().shape({
   email: yup.string().email('Digite um e-mail valido').required('Campo Obrigatorio*'),
   name: yup.string().required('Campo Obrigatorio*'),
   phone: yup.number().required('Campo Obrigatorio*'),
+  files: yup.array().min(1, 'Envie pelo menos 1 imagem*').required('Campo Obrigatorio*'),
 })
 
 const Publish = () => {
   const classes = useStyles()
-  const [files, setFiles] = useState([])
-
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
-    onDrop: acceptedFile => {
-      const newFiles = acceptedFile.map(file => {
-        return Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        })
-      })
-      setFiles([...files, ...newFiles])
-    },
-  })
-
-  const handleRemoveFile = fileName => {
-    const newFileState = files.filter(file => {
-      return file.name !== fileName
-    })
-    setFiles(newFileState)
-  }
 
   return (
     <TemplateDefault>
@@ -133,13 +113,34 @@ const Publish = () => {
           email: '',
           name: '',
           phone: '',
+          files: [],
         }}
         validationSchema={validationSchema}
-        onSubmit={values => {
-          console.log('ok enviou o form')
+        onSubmit={(values) => {
+          console.log(values)
         }}
       >
-        {({ values, errors, handleChange, handleSubmit }) => {
+        {({ touched, values, errors, handleChange, handleSubmit, setFieldValue }) => {
+          const { getRootProps, getInputProps } = useDropzone({
+            accept: 'image/*',
+            onDrop: (acceptedFile) => {
+              const newFiles = acceptedFile.map((file) => {
+                return Object.assign(file, {
+                  preview: URL.createObjectURL(file),
+                })
+              })
+
+              setFieldValue('files', [...values.files, ...newFiles])
+            },
+          })
+
+          const handleRemoveFile = (fileName) => {
+            const newFileState = values.files.filter((file) => {
+              return file.name !== fileName
+            })
+            setFieldValue('files', newFileState)
+          }
+
           return (
             <form onSubmit={handleSubmit}>
               <Container maxWidth="sm">
@@ -156,16 +157,18 @@ const Publish = () => {
 
               <Container maxWidth="md" className={classes.boxContainer}>
                 <Box className={classes.box}>
-                  <FormControl error={errors.title} fullWidth>
+                  <FormControl error={errors.title && touched.title} fullWidth>
                     <InputLabel className={classes.inputLabel} variant="standard">
                       Titulo do Anuncio
                     </InputLabel>
                     <Input name="title" value={values.title} onChange={handleChange} />
-                    <FormHelperText>{errors.title}</FormHelperText>
+                    <FormHelperText>
+                      {errors.title && touched.title ? errors.title : null}
+                    </FormHelperText>
                   </FormControl>
                   <br />
                   <br />
-                  <FormControl error={errors.category} fullWidth>
+                  <FormControl error={errors.category && touched.category} fullWidth>
                     <InputLabel className={classes.inputLabel} variant="standard">
                       Categoria
                     </InputLabel>
@@ -194,27 +197,42 @@ const Publish = () => {
                       <MenuItem value="Emprego">Emprego</MenuItem>
                       <MenuItem value="Outros">Outros</MenuItem>
                     </Select>
-                    <FormHelperText>{errors.category}</FormHelperText>
+                    <FormHelperText>
+                      {errors.category && touched.category ? errors.category : null}
+                    </FormHelperText>
                   </FormControl>
                 </Box>
               </Container>
 
               <Container maxWidth="md" className={classes.boxContainer}>
                 <Box className={classes.box}>
-                  <Typography component="h6" variant="h6" color="textPrimary">
+                  <Typography
+                    component="h6"
+                    variant="h6"
+                    color={errors.files && touched.files ? 'error' : 'textPrimary'}
+                  >
                     Imagens
                   </Typography>
-                  <Typography component="div" variant="body2" color="textPrimary">
+                  <Typography
+                    component="div"
+                    variant="body2"
+                    color={errors.files && touched.files ? 'error' : 'textPrimary'}
+                  >
                     A primeira imagem e foto principal do seu anuncio
                   </Typography>
+                  {errors.files && touched.files ? (
+                    <Typography variant="body2" color="error" gutterBottom>
+                      {errors.files}
+                    </Typography>
+                  ) : null}
                   <Box className={classes.thumbsContainer}>
                     <Box className={classes.dropZone} {...getRootProps()}>
-                      <input {...getInputProps()} />
+                      <input name="files" {...getInputProps()} />
                       <Typography variant="body2" color="textPrimary">
                         Clique para adicionar ou araste a imagem para aqui.
                       </Typography>
                     </Box>
-                    {files.map((file, index) => (
+                    {values.files.map((file, index) => (
                       <Box
                         className={classes.thumb}
                         style={{ backgroundImage: `url(${file.preview})` }}
@@ -245,7 +263,7 @@ const Publish = () => {
 
               <Container maxWidth="md" className={classes.boxContainer}>
                 <Box className={classes.box}>
-                  <FormControl error={errors.description} fullWidth>
+                  <FormControl error={errors.description && touched.description} fullWidth>
                     <InputLabel className={classes.inputLabel} variant="standard">
                       Escreva os detalhes do que esta vendendo
                     </InputLabel>
@@ -256,14 +274,16 @@ const Publish = () => {
                       variant="outlined"
                       onChange={handleChange}
                     />
-                    <FormHelperText>{errors.description}</FormHelperText>
+                    <FormHelperText>
+                      {errors.description && touched.description ? errors.description : null}
+                    </FormHelperText>
                   </FormControl>
                 </Box>
               </Container>
 
               <Container maxWidth="md" className={classes.boxContainer}>
                 <Box className={classes.box}>
-                  <FormControl error={errors.price} fullWidth>
+                  <FormControl error={errors.price && touched.price} fullWidth>
                     <InputLabel className={classes.inputLabel} variant="standard">
                       Preço de venda
                     </InputLabel>
@@ -272,7 +292,9 @@ const Publish = () => {
                       startAdornment={<InputAdornment position="start">R$</InputAdornment>}
                       onChange={handleChange}
                     />
-                    <FormHelperText>{errors.price}</FormHelperText>
+                    <FormHelperText>
+                      {errors.price && touched.price ? errors.price : null}
+                    </FormHelperText>
                   </FormControl>
                 </Box>
               </Container>
@@ -283,31 +305,37 @@ const Publish = () => {
                     Dados de Contato
                   </Typography>
 
-                  <FormControl error={errors.name} fullWidth>
+                  <FormControl error={errors.name && touched.name} fullWidth>
                     <InputLabel className={classes.inputLabel} variant="standard">
                       Nome:
                     </InputLabel>
                     <Input name="name" value={values.name} onChange={handleChange} />
-                    <FormHelperText>{errors.name}</FormHelperText>
+                    <FormHelperText>
+                      {errors.name && touched.name ? errors.name : null}
+                    </FormHelperText>
                   </FormControl>
 
                   <br />
                   <br />
-                  <FormControl error={errors.email} fullWidth>
+                  <FormControl error={errors.email && touched.email} fullWidth>
                     <InputLabel className={classes.inputLabel} variant="standard">
                       E-mail:
                     </InputLabel>
                     <Input name="email" value={values.email} onChange={handleChange} />
-                    <FormHelperText>{errors.email}</FormHelperText>
+                    <FormHelperText>
+                      {errors.email && touched.email ? errors.email : null}
+                    </FormHelperText>
                   </FormControl>
                   <br />
                   <br />
-                  <FormControl error={errors.phone} fullWidth>
+                  <FormControl error={errors.phone && touched.phone} fullWidth>
                     <InputLabel className={classes.inputLabel} variant="standard">
                       DDD + Telefone:
                     </InputLabel>
                     <Input name="phone" value={values.phone} onChange={handleChange} />
-                    <FormHelperText>{errors.phone}</FormHelperText>
+                    <FormHelperText>
+                      {errors.phone && touched.phone ? errors.phone : null}
+                    </FormHelperText>
                   </FormControl>
                 </Box>
               </Container>
