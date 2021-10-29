@@ -14,7 +14,7 @@ import { makeStyles } from '@mui/styles'
 import Card from '../../src/components/Card'
 import TemplateDefault from '../../src/templates/Default'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   searchBox: {
     display: 'flex',
     justifyContent: 'center',
@@ -41,10 +41,7 @@ const List = () => {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={12}>
             <Paper className={classes.searchBox} component="form">
-              <InputBase
-                placeholder="Ex: IPhone XS MAX com garantia"
-                fullWidth
-              />
+              <InputBase placeholder="Ex: IPhone XS MAX com garantia" fullWidth />
               <IconButton type="submit" aria-label="search">
                 <Search />
               </IconButton>
@@ -65,21 +62,21 @@ const List = () => {
             <Grid container spacing={4}>
               <Grid item xs={12} sm={6} md={4}>
                 <Card
-                  image={'https://picsum.photos/300'}
+                  image={'https://source.unsplash.com/random'}
                   title="Produto 1"
                   subtitle="R$ 60,00"
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={4}>
                 <Card
-                  image={'https://picsum.photos/300'}
+                  image={'https://source.unsplash.com/random'}
                   title="Produto 2"
                   subtitle="R$ 60,00"
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={4}>
                 <Card
-                  image={'https://picsum.photos/300'}
+                  image={'https://source.unsplash.com/random'}
                   title="Produto 3"
                   subtitle="R$ 60,00"
                 />

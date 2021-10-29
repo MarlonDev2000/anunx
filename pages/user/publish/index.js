@@ -1,10 +1,10 @@
+import { Formik } from 'formik'
 import {
   Container,
   Typography,
   Box,
   Select,
   Button,
-  IconButton,
   InputLabel,
   InputAdornment,
   MenuItem,
@@ -12,92 +12,12 @@ import {
   FormHelperText,
   Input,
 } from '@mui/material'
-import { DeleteForever } from '@mui/icons-material'
-import { makeStyles } from '@mui/styles'
-import { useState } from 'react'
-import { useDropzone } from 'react-dropzone'
-import { Formik } from 'formik'
-import * as yup from 'yup'
 
-import TemplateDefault from '../../src/templates/Default'
+import TemplateDefault from '../../../src/templates/Default'
+import { validationSchema, values } from './formValues'
 
-const useStyles = makeStyles((theme) => ({
-  boxContainer: {
-    paddingBottom: theme.spacing(3),
-  },
-  box: {
-    backgroundColor: theme.palette.background.white,
-    padding: theme.spacing(3),
-    border: '0px',
-  },
-  thumbsContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    marginTop: 15,
-  },
-  inputLabel: {
-    fontWeight: 400,
-  },
-  dropZone: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    padding: 10,
-    width: 180,
-    height: 150,
-    margin: '0 15px 15px 0',
-    backgroundColor: theme.palette.background.default,
-    border: '2px dashed black',
-    cursor: 'pointer',
-  },
-  thumb: {
-    position: 'relative',
-    margin: '0px 15px 15px 0px',
-    width: 180,
-    height: 150,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center center',
-
-    '&:hover $mask': {
-      display: 'flex',
-    },
-  },
-  mask: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    width: '100%',
-    height: '100%',
-    display: 'none',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-  },
-  mainImage: {
-    backgroundColor: '#3385ff',
-    padding: '6px 10px',
-    position: 'absolute',
-    bottom: '0',
-    left: '0',
-  },
-}))
-
-const validationSchema = yup.object().shape({
-  title: yup
-    .string()
-    .min(6, 'Escreva um titulo maior')
-    .max(100, 'Titulo muito grande')
-    .required('Campo Obrigatorio*'),
-  category: yup.string().required('Campo Obrigatorio*'),
-  description: yup
-    .string()
-    .min(50, 'Escreva uma descricao com pelo menos 50 caracteres.')
-    .required('Campo Obrigatorio*'),
-  price: yup.number().positive().required('Campo Obrigatorio*'),
-  email: yup.string().email('Digite um e-mail valido').required('Campo Obrigatorio*'),
-  name: yup.string().required('Campo Obrigatorio*'),
-  phone: yup.number().required('Campo Obrigatorio*'),
-  files: yup.array().min(1, 'Envie pelo menos 1 imagem*').required('Campo Obrigatorio*'),
-})
+import useStyles from './styles'
+import FileUpload from '../../../src/components/FileUpload'
 
 const Publish = () => {
   const classes = useStyles()
@@ -105,42 +25,13 @@ const Publish = () => {
   return (
     <TemplateDefault>
       <Formik
-        initialValues={{
-          title: '',
-          category: '',
-          description: '',
-          price: '',
-          email: '',
-          name: '',
-          phone: '',
-          files: [],
-        }}
+        initialValues={values}
         validationSchema={validationSchema}
         onSubmit={(values) => {
           console.log(values)
         }}
       >
         {({ touched, values, errors, handleChange, handleSubmit, setFieldValue }) => {
-          const { getRootProps, getInputProps } = useDropzone({
-            accept: 'image/*',
-            onDrop: (acceptedFile) => {
-              const newFiles = acceptedFile.map((file) => {
-                return Object.assign(file, {
-                  preview: URL.createObjectURL(file),
-                })
-              })
-
-              setFieldValue('files', [...values.files, ...newFiles])
-            },
-          })
-
-          const handleRemoveFile = (fileName) => {
-            const newFileState = values.files.filter((file) => {
-              return file.name !== fileName
-            })
-            setFieldValue('files', newFileState)
-          }
-
           return (
             <form onSubmit={handleSubmit}>
               <Container maxWidth="sm">
@@ -206,58 +97,12 @@ const Publish = () => {
 
               <Container maxWidth="md" className={classes.boxContainer}>
                 <Box className={classes.box}>
-                  <Typography
-                    component="h6"
-                    variant="h6"
-                    color={errors.files && touched.files ? 'error' : 'textPrimary'}
-                  >
-                    Imagens
-                  </Typography>
-                  <Typography
-                    component="div"
-                    variant="body2"
-                    color={errors.files && touched.files ? 'error' : 'textPrimary'}
-                  >
-                    A primeira imagem e foto principal do seu anuncio
-                  </Typography>
-                  {errors.files && touched.files ? (
-                    <Typography variant="body2" color="error" gutterBottom>
-                      {errors.files}
-                    </Typography>
-                  ) : null}
-                  <Box className={classes.thumbsContainer}>
-                    <Box className={classes.dropZone} {...getRootProps()}>
-                      <input name="files" {...getInputProps()} />
-                      <Typography variant="body2" color="textPrimary">
-                        Clique para adicionar ou araste a imagem para aqui.
-                      </Typography>
-                    </Box>
-                    {values.files.map((file, index) => (
-                      <Box
-                        className={classes.thumb}
-                        style={{ backgroundImage: `url(${file.preview})` }}
-                        key={file.name}
-                      >
-                        {index === 0 ? (
-                          <Box className={classes.mainImage}>
-                            <Typography variant="body2" color="secondary">
-                              Principal
-                            </Typography>
-                          </Box>
-                        ) : null}
-                        <Box className={classes.mask}>
-                          <IconButton
-                            color="secondary"
-                            onClick={() => {
-                              handleRemoveFile(file.name)
-                            }}
-                          >
-                            <DeleteForever fontSize="large" />
-                          </IconButton>
-                        </Box>
-                      </Box>
-                    ))}
-                  </Box>
+                  <FileUpload
+                    files={values.files}
+                    errors={errors.files}
+                    touched={touched.files}
+                    setFieldValue={setFieldValue}
+                  />
                 </Box>
               </Container>
 

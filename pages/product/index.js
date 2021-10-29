@@ -15,7 +15,7 @@ import { Carousel } from 'react-responsive-carousel'
 
 import TemplateDefault from '../../src/templates/Default'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   box: {
     backgroundColor: theme.palette.background.white,
     padding: theme.spacing(3),
@@ -45,22 +45,17 @@ const Product = () => {
         <Grid container spacing={3}>
           <Grid item xs={8}>
             <Box className={classes.box}>
-              <Carousel
-                showThumbs={false}
-                autoPlay={true}
-                infiniteLoop={true}
-                showStatus={false}
-              >
+              <Carousel showThumbs={false} autoPlay={true} infiniteLoop={true} showStatus={false}>
                 <Card className={classes.card}>
                   <CardMedia
-                    image="https://picsum.photos/700"
+                    image="https://source.unsplash.com/random"
                     title="Titulo da imagem"
                     className={classes.cardMedia}
                   />
                 </Card>
                 <Card className={classes.card}>
                   <CardMedia
-                    image="https://picsum.photos/700"
+                    image="https://source.unsplash.com/random"
                     title="Titulo da imagem"
                     className={classes.cardMedia}
                   />
@@ -72,11 +67,7 @@ const Product = () => {
               <Typography component="span" variant="caption">
                 Publicado 16 de junho de 2021
               </Typography>
-              <Typography
-                component="h4"
-                variant="h4"
-                className={classes.productName}
-              >
+              <Typography component="h4" variant="h4" className={classes.productName}>
                 Jaguar XE 2.0 D R-Sport Aut.
               </Typography>
               <Typography component="h4" variant="h4" className={classes.price}>
@@ -90,16 +81,14 @@ const Product = () => {
                 Descrição
               </Typography>
               <Typography component="p" variant="body2">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of
-                type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularized in the 1960s with the release of Letraste sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Ladus PageMaker including versions of
-                Lorem Ipsum.
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+                Ipsum has been the industry standard dummy text ever since the 1500s, when an
+                unknown printer took a galley of type and scrambled it to make a type specimen book.
+                It has survived not only five centuries, but also the leap into electronic
+                typesetting, remaining essentially unchanged. It was popularized in the 1960s with
+                the release of Letraste sheets containing Lorem Ipsum passages, and more recently
+                with desktop publishing software like Ladus PageMaker including versions of Lorem
+                Ipsum.
               </Typography>
             </Box>
           </Grid>
@@ -111,10 +100,7 @@ const Product = () => {
                 title="Marlon Braga"
                 subheader="marloncs13@outlook.com"
               />
-              <CardMedia
-                image={'https://source.unsplash.com/random'}
-                title="Marlon Braga"
-              />
+              <CardMedia image={'https://source.unsplash.com/random'} title="Marlon Braga" />
             </Card>
 
             <Box className={classes.box}>
