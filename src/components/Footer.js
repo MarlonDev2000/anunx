@@ -1,8 +1,8 @@
-import { Container, Grid, Box, Typography } from "@mui/material"
+import { Container, Grid, Box, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import Link from 'next/link'
 
-const useStyles = makeStyles((theme)=>({
+const useStyles = makeStyles((theme) => ({
   footer: {
     borderTop: `1px solid ${theme.palette.divider}`,
     paddingTop: theme.spacing(3),
@@ -10,16 +10,14 @@ const useStyles = makeStyles((theme)=>({
     [theme.breakpoints.up('sm')]: {
       paddingTop: theme.spacing(6),
       paddingBottom: theme.spacing(6),
-    }
+    },
   },
   textLink: {
     cursor: 'pointer',
-  }
+  },
 }))
 
-
 const Footer = () => {
-
   const classes = useStyles()
   return (
     <Container maxWidth="lg" component="footer" className={classes.footer}>
