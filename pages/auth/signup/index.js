@@ -1,4 +1,7 @@
 import { Formik } from 'formik'
+import axios from 'axios'
+import { useRouter } from 'next/router'
+import { grey } from '@mui/material/colors'
 import {
   Container,
   Typography,
@@ -8,15 +11,31 @@ import {
   FormControl,
   FormHelperText,
   Input,
+  CircularProgress,
 } from '@mui/material'
 
-import { validationSchema, values } from './formValues'
-import useStyles from './styles'
-
 import TemplateDefault from '../../../src/templates/Default'
+import { validationSchema, values } from './formValues'
+import useToasty from '../../../src/contexts/Toasty'
+import useStyles from './styles'
 
 const Signup = () => {
   const classes = useStyles()
+  const router = useRouter()
+  const { setToasty } = useToasty()
+
+  const handleFormSubmit = async (values) => {
+    const response = await axios.post('/api/users', values)
+
+    if (response.data.success) {
+      setToasty({
+        open: true,
+        severity: 'success',
+        text: 'Cadastro realizado com sucesso!',
+      })
+      router.push('/auth/signin')
+    }
+  }
 
   return (
     <TemplateDefault>
@@ -32,11 +51,9 @@ const Signup = () => {
       <Formik
         initialValues={values}
         validationSchema={validationSchema}
-        onSubmit={(values) => {
-          console.log(values)
-        }}
+        onSubmit={handleFormSubmit}
       >
-        {({ touched, values, errors, handleChange, handleSubmit }) => {
+        {({ touched, values, errors, handleChange, handleSubmit, isSubmitting }) => {
           return (
             <form onSubmit={handleSubmit}>
               <br /> <br />
@@ -94,9 +111,13 @@ const Signup = () => {
                     </FormHelperText>
                   </FormControl>
                   <Box textAlign="center" marginTop={5}>
-                    <Button color="primary" variant="contained" type="submit" fullWidth>
-                      Cadastrar
-                    </Button>
+                    {isSubmitting ? (
+                      <CircularProgress />
+                    ) : (
+                      <Button color="primary" variant="contained" type="submit" fullWidth>
+                        Cadastrar
+                      </Button>
+                    )}
                   </Box>
                   <Box marginTop={2}>
                     <Button color="primary" variant="outlined" size="small" href="/signin">
