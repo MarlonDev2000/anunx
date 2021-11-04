@@ -120,7 +120,7 @@ const Signup = () => {
                     )}
                   </Box>
                   <Box marginTop={2}>
-                    <Button color="primary" variant="outlined" size="small" href="/signin">
+                    <Button color="primary" variant="outlined" size="small" href="/auth/signin">
                       Já possui uma conta? Entre Aqui!
                     </Button>
                   </Box>

@@ -1,109 +1,96 @@
-import React from 'react'
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import CssBaseline from '@mui/material/CssBaseline'
-import TextField from '@mui/material/TextField'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
-import Link from '@mui/material/Link'
-import Paper from '@mui/material/Paper'
-import Grid from '@mui/material/Grid'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import Typography from '@mui/material/Typography'
-import { makeStyles } from '@mui/styles'
+import { Formik } from 'formik'
+import axios from 'axios'
+import { useRouter } from 'next/router'
+import { grey } from '@mui/material/colors'
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  InputLabel,
+  FormControl,
+  FormHelperText,
+  Input,
+  CircularProgress,
+} from '@mui/material'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: '100vh',
-  },
-  image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor: '#ccc',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}))
+import TemplateDefault from '../../../src/templates/Default'
+import { validationSchema, values } from './formValues'
+import useToasty from '../../../src/contexts/Toasty'
+import useStyles from './styles'
 
-export default function SignInSide() {
+const Signin = () => {
   const classes = useStyles()
+  const router = useRouter()
+  const { setToasty } = useToasty()
+
+  const handleFormSubmit = async (values) => {}
 
   return (
-    <Grid container component="main" className={classes.root}>
-      <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Acesse a sua conta
-          </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="E-mail"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Senha"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Entrar
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Não tem uma conta? Cadastre-se
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Crie sua conta
-                </Link>
-              </Grid>
-            </Grid>
-          </form>
-        </div>
-      </Grid>
-    </Grid>
+    <TemplateDefault>
+      <Container maxWidth="sm">
+        <Typography component="h1" variant="h2" align="center" color="textPrimary">
+          Entre na sua conta
+        </Typography>
+      </Container>
+
+      <Formik
+        initialValues={values}
+        validationSchema={validationSchema}
+        onSubmit={handleFormSubmit}
+      >
+        {({ touched, values, errors, handleChange, handleSubmit, isSubmitting }) => {
+          return (
+            <form onSubmit={handleSubmit}>
+              <br /> <br />
+              <Container maxWidth="md" className={classes.boxContainer}>
+                <Box className={classes.box}>
+                  <FormControl error={errors.email && touched.email} fullWidth>
+                    <InputLabel className={classes.inputLabel} variant="standard">
+                      E-mail
+                    </InputLabel>
+                    <Input name="email" value={values.email} onChange={handleChange} />
+                    <FormHelperText>
+                      {errors.email && touched.email ? errors.email : null}
+                    </FormHelperText>
+                  </FormControl>
+                  <br /> <br />
+                  <FormControl error={errors.password && touched.password} fullWidth>
+                    <InputLabel className={classes.inputLabel} variant="standard">
+                      Senha
+                    </InputLabel>
+                    <Input
+                      name="password"
+                      value={values.password}
+                      onChange={handleChange}
+                      type="password"
+                    />
+                    <FormHelperText>
+                      {errors.password && touched.password ? errors.password : null}
+                    </FormHelperText>
+                  </FormControl>
+                  <Box textAlign="center" marginTop={5}>
+                    {isSubmitting ? (
+                      <CircularProgress />
+                    ) : (
+                      <Button color="primary" variant="contained" type="submit" fullWidth>
+                        Entrar
+                      </Button>
+                    )}
+                  </Box>
+                  <Box marginTop={2}>
+                    <Button color="primary" variant="outlined" size="small" href="/auth/signup">
+                      Cadastre-se Agora!
+                    </Button>
+                  </Box>
+                </Box>
+              </Container>
+            </form>
+          )
+        }}
+      </Formik>
+    </TemplateDefault>
   )
 }
+
+export default Signin
