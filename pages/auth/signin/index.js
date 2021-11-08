@@ -1,7 +1,7 @@
 import { Formik } from 'formik'
-import axios from 'axios'
 import { useRouter } from 'next/router'
-import { grey } from '@mui/material/colors'
+import { signIn, useSession } from 'next-auth/client'
+
 import {
   Container,
   Typography,
@@ -12,6 +12,7 @@ import {
   FormHelperText,
   Input,
   CircularProgress,
+  Alert,
 } from '@mui/material'
 
 import TemplateDefault from '../../../src/templates/Default'
@@ -23,8 +24,17 @@ const Signin = () => {
   const classes = useStyles()
   const router = useRouter()
   const { setToasty } = useToasty()
+  const [session] = useSession()
 
-  const handleFormSubmit = async (values) => {}
+  console.log(session)
+
+  const handleFormSubmit = async (values) => {
+    signIn('credentials', {
+      email: values.email,
+      password: values.password,
+      callbackUrl: 'http://localhost:3000/user/dashbord',
+    })
+  }
 
   return (
     <TemplateDefault>
@@ -69,6 +79,11 @@ const Signin = () => {
                       {errors.password && touched.password ? errors.password : null}
                     </FormHelperText>
                   </FormControl>
+                  {router.query.i === '1' ? (
+                    <Alert severity="error" className={classes.errorMessage}>
+                      Usuario ou senha invalidos
+                    </Alert>
+                  ) : null}
                   <Box textAlign="center" marginTop={5}>
                     {isSubmitting ? (
                       <CircularProgress />
