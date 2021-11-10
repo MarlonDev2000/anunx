@@ -26,8 +26,6 @@ const Signin = () => {
   const { setToasty } = useToasty()
   const [session] = useSession()
 
-  console.log(session)
-
   const handleFormSubmit = async (values) => {
     signIn('credentials', {
       email: values.email,
@@ -43,7 +41,6 @@ const Signin = () => {
           Entre na sua conta
         </Typography>
       </Container>
-
       <Formik
         initialValues={values}
         validationSchema={validationSchema}

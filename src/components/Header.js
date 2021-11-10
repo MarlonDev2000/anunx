@@ -10,6 +10,7 @@ import {
   MenuItem,
   Divider,
 } from '@mui/material'
+import { useSession, signOut } from 'next-auth/client'
 import { makeStyles } from '@mui/styles'
 import { useState } from 'react'
 import { AccountCircle } from '@mui/icons-material'
@@ -34,6 +35,7 @@ const useStyles = makeStyles(() => ({
 const Header = () => {
   const classes = useStyles()
   const [anchorUserMenu, setAnchorUserMenu] = useState(false)
+  const [session] = useSession()
 
   const openUserMenu = Boolean(anchorUserMenu)
 
@@ -47,34 +49,29 @@ const Header = () => {
                 AnunX
               </Typography>
             </Link>
-            <Link href="/user/publish" passHref>
-              <Button
-                color="inherit"
-                variant="outlined"
-                className={classes.sellLinkButton}
-              >
+            <Link href={session ? '/user/publish' : '/auth/signin'} passHref>
+              <Button color="inherit" variant="outlined" className={classes.sellLinkButton}>
                 Anunciar e Vender
               </Button>
             </Link>
-            <IconButton
-              color="secondary"
-              onClick={e => {
-                setAnchorUserMenu(e.currentTarget)
-              }}
-            >
-              {true === false ? (
-                <Avatar src="" />
-              ) : (
-                <AccountCircle fontSize="large" />
-              )}
-              <Typography
-                variant="subtitle2"
+            {session ? (
+              <IconButton
                 color="secondary"
-                className={classes.avatarIcon}
+                onClick={(e) => {
+                  setAnchorUserMenu(e.currentTarget)
+                }}
               >
-                Marlon Braga
-              </Typography>
-            </IconButton>
+                {session.user.image ? (
+                  <Avatar src={session.user.image} />
+                ) : (
+                  <AccountCircle fontSize="large" />
+                )}
+                <Typography variant="subtitle2" color="secondary" className={classes.avatarIcon}>
+                  {session.user.name}
+                </Typography>
+              </IconButton>
+            ) : null}
+
             <Menu
               open={openUserMenu}
               anchorEl={anchorUserMenu}
@@ -89,7 +86,13 @@ const Header = () => {
                 <MenuItem>Publicar novo anuncio</MenuItem>
               </Link>
               <Divider className={classes.divider} />
-              <MenuItem>Sair</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  signOut({ callbackUrl: '/' })
+                }}
+              >
+                Sair
+              </MenuItem>
             </Menu>
           </Toolbar>
         </Container>

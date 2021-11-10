@@ -24,13 +24,7 @@ const Publish = () => {
 
   return (
     <TemplateDefault>
-      <Formik
-        initialValues={values}
-        validationSchema={validationSchema}
-        onSubmit={(values) => {
-          console.log(values)
-        }}
-      >
+      <Formik initialValues={values} validationSchema={validationSchema} onSubmit={(values) => {}}>
         {({ touched, values, errors, handleChange, handleSubmit, setFieldValue }) => {
           return (
             <form onSubmit={handleSubmit}>
