@@ -20,7 +20,7 @@ import { validationSchema, values } from './formValues'
 import useToasty from '../../../src/contexts/Toasty'
 import useStyles from './styles'
 
-const Signin = () => {
+const Signin = ({ APP_URL }) => {
   const classes = useStyles()
   const router = useRouter()
   const { setToasty } = useToasty()
@@ -30,7 +30,7 @@ const Signin = () => {
     signIn('credentials', {
       email: values.email,
       password: values.password,
-      callbackUrl: 'http://localhost:3000/user/dashbord',
+      callbackUrl: `${APP_URL}/user/dashbord`,
     })
   }
 
@@ -103,6 +103,12 @@ const Signin = () => {
       </Formik>
     </TemplateDefault>
   )
+}
+
+Signin.getInitialProps = async function () {
+  return {
+    APP_URL: process.env.APP_URL,
+  }
 }
 
 export default Signin
